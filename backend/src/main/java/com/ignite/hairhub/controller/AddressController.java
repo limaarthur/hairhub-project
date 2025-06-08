@@ -37,4 +37,10 @@ public class AddressController {
                 .buildAndExpand(addressDTO.getId()).toUri();
         return ResponseEntity.created(uri).body(addressDTO);
     }
+
+    @PutMapping(value = "/{id}") // Método put para atualizar um endereço
+    public ResponseEntity<AddressDTO> update(@PathVariable UUID id, @RequestBody AddressDTO addressDTO) { // PathVariable terá a variável na url e RequestBody vai receber os dados no corpo da requisição
+        addressDTO = service.update(id, addressDTO); // Atualiza o endereço
+        return ResponseEntity.ok(addressDTO);
+    }
 }

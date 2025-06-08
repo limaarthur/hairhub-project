@@ -4,6 +4,7 @@ import com.ignite.hairhub.dto.AddressDTO;
 import com.ignite.hairhub.entity.Address;
 import com.ignite.hairhub.repository.AddressRepository;
 import com.ignite.hairhub.service.exceptions.ResourceNotFoundException;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -39,5 +40,21 @@ public class AddressService {
         entity.setZipCode(addressDTO.getZipCode());
         entity = repository.save(entity);
         return new AddressDTO(entity);
+    }
+
+    @Transactional
+    public AddressDTO update(UUID id, AddressDTO addressDTO) {
+        try { // Lança a exceção se o id não existir
+        Address entity = repository.getReferenceById(id);
+        entity.setStreet(addressDTO.getStreet());
+        entity.setCity(addressDTO.getCity());
+        entity.setUf(addressDTO.getUf());
+        entity.setZipCode(addressDTO.getZipCode());
+        entity = repository.save(entity);
+        return new AddressDTO(entity);
+        }
+        catch (EntityNotFoundException e) {
+            throw new ResourceNotFoundException("Id not found " + id);
+        }
     }
 }
