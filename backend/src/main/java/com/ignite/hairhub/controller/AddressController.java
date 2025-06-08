@@ -5,10 +5,12 @@ import com.ignite.hairhub.service.AddressService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController // Essa anotation vai configurar quando a aplicação for executada, vai responder pela web
 @RequestMapping(value = "/address") // Configura a rota para o endpoint address
@@ -21,5 +23,11 @@ public class AddressController {
     public ResponseEntity<List<AddressDTO>> findAll() { // Pageable faz a busca pagina dos registros
         List<AddressDTO> list = service.findAll();
         return ResponseEntity.ok(list);
+    }
+
+    @GetMapping(value = "/{id}") // Método Get para o id
+    public AddressDTO findById(@PathVariable UUID id) {
+        AddressDTO addressDTO = service.findById(id);
+        return addressDTO;
     }
 }

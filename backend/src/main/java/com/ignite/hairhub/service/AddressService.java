@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class AddressService {
@@ -19,5 +20,11 @@ public class AddressService {
     public List<AddressDTO> findAll() {
         List<Address> list = repository.findAll();
         return list.stream().map(x -> new AddressDTO(x)).toList();
+    }
+
+    @Transactional(readOnly = true)
+    public AddressDTO findById(UUID id) {
+        Address address = repository.findById(id).get();
+        return new AddressDTO(address);
     }
 }
