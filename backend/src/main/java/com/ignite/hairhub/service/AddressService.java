@@ -3,6 +3,7 @@ package com.ignite.hairhub.service;
 import com.ignite.hairhub.dto.AddressDTO;
 import com.ignite.hairhub.entity.Address;
 import com.ignite.hairhub.repository.AddressRepository;
+import com.ignite.hairhub.service.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,7 +25,8 @@ public class AddressService {
 
     @Transactional(readOnly = true)
     public AddressDTO findById(UUID id) {
-        Address address = repository.findById(id).get();
+        Address address = repository.findById(id).orElseThrow(
+                () -> new ResourceNotFoundException("Resource not found")); // Tratamento da exceção personalizada
         return new AddressDTO(address);
     }
 }
