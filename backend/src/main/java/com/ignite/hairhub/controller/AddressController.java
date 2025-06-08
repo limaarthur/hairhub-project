@@ -4,11 +4,10 @@ import com.ignite.hairhub.dto.AddressDTO;
 import com.ignite.hairhub.service.AddressService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 import java.util.UUID;
 
@@ -29,5 +28,13 @@ public class AddressController {
     public AddressDTO findById(@PathVariable UUID id) {
         AddressDTO addressDTO = service.findById(id);
         return addressDTO;
+    }
+
+    @PostMapping // Método post para inserir um novo endereço
+    public ResponseEntity<AddressDTO> insert(@RequestBody AddressDTO addressDTO) { // RequestBody vai receber os dados da Request do postman
+        addressDTO = service.insert(addressDTO);
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{id}") // Constrói a URI do novo recurso (/addresses/{id}) para ser usada no cabeçalho Location
+                .buildAndExpand(addressDTO.getId()).toUri();
+        return ResponseEntity.created(uri).body(addressDTO);
     }
 }

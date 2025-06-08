@@ -29,4 +29,15 @@ public class AddressService {
                 () -> new ResourceNotFoundException("Resource not found")); // Tratamento da exceção personalizada
         return new AddressDTO(address);
     }
+
+    @Transactional
+    public AddressDTO insert(AddressDTO addressDTO) {
+        Address entity = new Address();
+        entity.setStreet(addressDTO.getStreet());
+        entity.setCity(addressDTO.getCity());
+        entity.setUf(addressDTO.getUf());
+        entity.setZipCode(addressDTO.getZipCode());
+        entity = repository.save(entity);
+        return new AddressDTO(entity);
+    }
 }
