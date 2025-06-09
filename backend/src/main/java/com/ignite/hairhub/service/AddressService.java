@@ -3,10 +3,11 @@ package com.ignite.hairhub.service;
 import com.ignite.hairhub.dto.AddressDTO;
 import com.ignite.hairhub.entity.Address;
 import com.ignite.hairhub.repository.AddressRepository;
+import com.ignite.hairhub.service.exceptions.DatabaseException;
 import com.ignite.hairhub.service.exceptions.ResourceNotFoundException;
-import jakarta.persistence.Column;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -50,6 +51,17 @@ public class AddressService {
         }
         catch (EntityNotFoundException e) {
             throw new ResourceNotFoundException("Id not found " + id);
+        }
+    }
+
+    public void delete(UUID id) {
+        if (!repository.existsById(id)) {
+            throw new ResourceNotFoundException("Id not found " + id);
+        }
+        try {
+            repository.deleteById(id);
+        } catch (DataIntegrityViolationException e) {
+            throw new DatabaseException("Integrity violation");
         }
     }
 

@@ -43,4 +43,10 @@ public class AddressController {
         addressDTO = service.update(id, addressDTO); // Atualiza o endereço
         return ResponseEntity.ok(addressDTO);
     }
+
+    @DeleteMapping(value = "/{id}") // Método put para atualizar um endereço
+    public ResponseEntity<Void> delete(@PathVariable UUID id) { // Void pois o corpo da resposta será vazio
+        service.delete(id); // Atualiza o endereço
+        return ResponseEntity.noContent().build(); // A resposta não precisa de corpo, gera resposta 204 significando que a resposta deu certo
+    }
 }
