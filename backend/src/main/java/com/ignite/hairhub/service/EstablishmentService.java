@@ -1,7 +1,9 @@
 package com.ignite.hairhub.service;
 
 import com.ignite.hairhub.dto.EstablishmentDTO;
+import com.ignite.hairhub.entity.Address;
 import com.ignite.hairhub.entity.Establishment;
+import com.ignite.hairhub.repository.AddressRepository;
 import com.ignite.hairhub.repository.EstablishmentRepository;
 import com.ignite.hairhub.service.exceptions.DatabaseException;
 import com.ignite.hairhub.service.exceptions.ResourceNotFoundException;
@@ -20,6 +22,9 @@ public class EstablishmentService {
     @Autowired
     private EstablishmentRepository repository;
 
+    @Autowired
+    private AddressRepository addressRepository;
+
     public List<EstablishmentDTO> findAll() {
         List<Establishment> list = repository.findAll();
         return list.stream().map(x -> new EstablishmentDTO(x)).toList();
@@ -35,7 +40,14 @@ public class EstablishmentService {
     @Transactional
     public EstablishmentDTO insert(EstablishmentDTO establishmentDTO) {
         Establishment entity = new Establishment();
+
         copyDTOToEntity(establishmentDTO, entity); // Chamada ao método auxiliar evita repetição
+
+        UUID addressId = establishmentDTO.getAddress().getId();
+        Address address = addressRepository.findById(addressId)
+                .orElseThrow(() -> new ResourceNotFoundException("Address not found: " + addressId));
+        entity.setAddress(address);
+
         entity = repository.save(entity);
         return new EstablishmentDTO(entity);
     }

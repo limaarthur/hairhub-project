@@ -25,15 +25,20 @@ public class Establishment {
     @Column(name = "img_url", nullable = false)
     private String imgUrl;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "address_id", nullable = false)
+    private Address address;
+
     public Establishment() {
     }
 
-    public Establishment(UUID id, String name, String description, String cnpj, String imgUrl) {
+    public Establishment(UUID id, String name, String description, String cnpj, String imgUrl, Address address) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.cnpj = cnpj;
         this.imgUrl = imgUrl;
+        this.address = address;
     }
 
     public UUID getId() {
@@ -74,6 +79,14 @@ public class Establishment {
 
     public void setImgUrl(String imgUrl) {
         this.imgUrl = imgUrl;
+    }
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
     }
 
     @Override

@@ -1,0 +1,7 @@
+INSERT INTO address (id, street, city, uf, zip_code) VALUES ('11111111-1111-1111-1111-111111111111', 'Rua A', 'São Paulo', 'SP', '01000-000');
+INSERT INTO address (id, street, city, uf, zip_code) VALUES ('22222222-2222-2222-2222-222222222222', 'Rua B', 'Rio de Janeiro', 'RJ', '20000-000');
+INSERT INTO address (id, street, city, uf, zip_code) VALUES ('33333333-3333-3333-3333-333333333333', 'Rua C', 'Curitiba', 'PR', '80000-000');
+
+INSERT INTO establishment (id, name, description, cnpj, img_url, address_id) VALUES ('aaaaaaa1-aaaa-aaaa-aaaa-aaaaaaaaaaaa', 'Salão da Ana', 'Cortes modernos e coloração', '12345678000190', 'https://example.com/imagem1.jpg', '11111111-1111-1111-1111-111111111111');
+INSERT INTO establishment (id, name, description, cnpj, img_url, address_id) VALUES ('aaaaaaa2-aaaa-aaaa-aaaa-aaaaaaaaaaaa', 'Barbearia do João', 'Barba, cabelo e bigode', '98765432000199', 'https://example.com/imagem2.jpg', '22222222-2222-2222-2222-222222222222');
+INSERT INTO establishment (id, name, description, cnpj, img_url, address_id) VALUES ('aaaaaaa3-aaaa-aaaa-aaaa-aaaaaaaaaaaa', 'Barbearia do Jose', 'Barba, cabelo e bigode', '98765432000199', 'https://example.com/imagem2.jpg', '33333333-3333-3333-3333-333333333333');

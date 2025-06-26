@@ -16,6 +16,8 @@ public class EstablishmentDTO {
 
     private String imgUrl;
 
+    private AddressDTO address;
+
     public EstablishmentDTO() {
     }
 
@@ -33,6 +35,10 @@ public class EstablishmentDTO {
         description = entity.getDescription();
         cnpj = entity.getCnpj();
         imgUrl = entity.getImgUrl();
+
+        if (entity.getAddress() != null) { // Evita exceção caso Establishment não tenha endereço
+            address = new AddressDTO(entity.getAddress());
+        }
     }
 
     public UUID getId() {
@@ -73,5 +79,9 @@ public class EstablishmentDTO {
 
     public void setImgUrl(String imgUrl) {
         this.imgUrl = imgUrl;
+    }
+
+    public AddressDTO getAddress() {
+        return address;
     }
 }
