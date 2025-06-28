@@ -3,12 +3,13 @@ package com.ignite.hairhub.controller;
 import com.ignite.hairhub.dto.EstablishmentDTO;
 import com.ignite.hairhub.service.EstablishmentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
-import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -19,9 +20,8 @@ public class EstablishmentController {
     private EstablishmentService service;
 
     @GetMapping
-    public ResponseEntity<List<EstablishmentDTO>> findAll() {
-        List<EstablishmentDTO> list = service.findAll();
-        return ResponseEntity.ok(list);
+    public Page<EstablishmentDTO> findAll(Pageable pageable) { //Pageable faz a busca pagina dos registros
+        return service.findAll(pageable);
     }
 
     @GetMapping(value = "/{id}")

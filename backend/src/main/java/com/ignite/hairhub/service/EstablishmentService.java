@@ -10,6 +10,8 @@ import com.ignite.hairhub.service.exceptions.ResourceNotFoundException;
 import jakarta.persistence.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,9 +27,10 @@ public class EstablishmentService {
     @Autowired
     private AddressRepository addressRepository;
 
-    public List<EstablishmentDTO> findAll() {
-        List<Establishment> list = repository.findAll();
-        return list.stream().map(x -> new EstablishmentDTO(x)).toList();
+    @Transactional(readOnly = true)
+    public Page<EstablishmentDTO> findAll(Pageable pageable) {
+        Page<Establishment> establishment = repository.findAll(pageable);
+        return establishment.map(x -> new EstablishmentDTO(x));
     }
 
     @Transactional(readOnly = true)
